@@ -1,0 +1,21 @@
+{
+  "name": "adept-scale",
+  "version": "0.0.1",
+  "description": "Manage AdeptScale automated scaling through the Heroku CLI",
+  "main": "index.js",
+  "author": "Alex Burnett @adeptmobile",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdeptMobile/adept-scale-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AdeptMobile/adept-scale-plugin/issues"
+  },
+  "keywords": [
+    "heroku-plugin"
+  ],
+  "license": "Copyright, AdeptMobile 2015",
+  "dependencies": {
+    "heroku-cli-util": "^3.5.0"
+  }
+}
