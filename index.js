@@ -25,5 +25,6 @@ exports.commands = [
 			console.log('AdeptScale Heroku CLI Plugin version 0.0.1');
 		}
 	},
-	require('./commands/settings'),
+	require('./commands/settings/get'),
+	require('./commands/settings/set'),
 ];

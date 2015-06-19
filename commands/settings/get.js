@@ -5,7 +5,7 @@ let http   = require('http')
 
 module.exports = {
     topic: 'adept-scale',
-    command: 'settings',
+    command: 'settings:get',
     description: 'Display the current settings of the app',
     help: "This is a getter to find out the current scale settings of your app.\n" +
             "Returned values:\n" +
@@ -41,7 +41,7 @@ module.exports = {
         console.log('Using Adept Scale License Key: ', config.ADEPT_SCALE_LICENSE_KEY);
 
         // Contact AdeptScale API providing the app id and license key and make our request
-        let apiUrl = url.parse("http://localhost:3000/v1/apps/" + config.ADEPT_SCALE_LICENSE_KEY + "/settings");
+        let apiUrl = url.parse("http://localhost:3000/v1/apps/" + config.ADEPT_SCALE_LICENSE_KEY);
 
         // TODO: For now, we do not have license keys in all our apps' configs, so lets just use app id
         // let apiUrl = url.parse("http://localhost:3000/v1/apps/21dd4b46-8b5d-44ca-a860-83f3ee58b161/settings");
