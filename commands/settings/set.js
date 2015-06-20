@@ -17,30 +17,46 @@ module.exports = {
     run: h.command(function* (context, heroku) {
         let app = yield heroku.apps(context.app).info();
         // Debug all about the app
-        console.log('Heroku App ID: ', app.id);
+        // console.log('Heroku App ID: ', app.id);
 
         // Get the config vars for the app
+        console.log('Validating license key for app: ', app.name);
         let config = yield heroku.apps(context.app).configVars().info();
         if (!config.ADEPT_SCALE_LICENSE_KEY) {
             console.error('App does not have ADEPT_SCALE_LICENSE_KEY, please contact AdeptScale support.');
             process.exit(1);
         }
         //Debug our license key
-        console.log('Using Adept Scale License Key: ', config.ADEPT_SCALE_LICENSE_KEY);
+        // console.log('Using Adept Scale License Key: ', config.ADEPT_SCALE_LICENSE_KEY);
 
 
-        // TODO: For now, we do not have license keys in all our apps' configs, so lets just use app id
-        // let apiUrl = url.parse("http://localhost:3000/v1/apps/21dd4b46-8b5d-44ca-a860-83f3ee58b161/settings");
-        // console.log( apiUrl);
+        //This is the data we are posting, it needs to be a string or a buffer
+        var payload = JSON.stringify({
+            settings: {
+                dyno_type: 'web',
+                scaling_is_active: true,
+                max_dynos: null,
+                min_dynos: null,
+                expected_response_time: null,
+                sample_window: null,
+                dyno_increase_rate: null,
+                dyno_decrease_rate: null
+            }
+        });
+        console.log( payload );
+
+        var headers = {
+          'Content-Type': 'application/json',
+          'Content-Length': payload.length
+        };
 
         var requestOptions = {
             host: 'localhost',
             path: '/v1/apps/' + config.ADEPT_SCALE_LICENSE_KEY,
             port: '3000',
-            method: 'PUT'
+            method: 'PUT',
+            headers: headers
         };
-
-        console.log('Starting request to change settings...');
 
         var responseCallback = function(response) {
             var res_data = ''
@@ -60,9 +76,9 @@ module.exports = {
             });
         }
 
+        console.log('Starting request to change settings...');
         var req = http.request(requestOptions, responseCallback);
-        //This is the data we are posting, it needs to be a string or a buffer
-        req.write("hello world!");
+        req.write( payload );
         req.end();
     })
 };

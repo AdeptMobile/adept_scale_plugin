@@ -29,23 +29,20 @@ module.exports = {
     run: h.command(function* (context, heroku) {
         let app = yield heroku.apps(context.app).info();
         // Debug all about the app
-        console.log('Heroku App ID: ', app.id);
+        // console.log('Heroku App ID: ', app.id);
 
         // Get the config vars for the app
+        console.log('Validating license key for app: ', app.name);
         let config = yield heroku.apps(context.app).configVars().info();
         if (!config.ADEPT_SCALE_LICENSE_KEY) {
             console.error('App does not have ADEPT_SCALE_LICENSE_KEY, please contact AdeptScale support.');
             process.exit(1);
         }
         //Debug our license key
-        console.log('Using Adept Scale License Key: ', config.ADEPT_SCALE_LICENSE_KEY);
+        // console.log('Using Adept Scale License Key: ', config.ADEPT_SCALE_LICENSE_KEY);
 
         // Contact AdeptScale API providing the app id and license key and make our request
         let apiUrl = url.parse("http://localhost:3000/v1/apps/" + config.ADEPT_SCALE_LICENSE_KEY);
-
-        // TODO: For now, we do not have license keys in all our apps' configs, so lets just use app id
-        // let apiUrl = url.parse("http://localhost:3000/v1/apps/21dd4b46-8b5d-44ca-a860-83f3ee58b161/settings");
-        // console.log( apiUrl);
 
         var res_data = '';
         var req = http.request(apiUrl, function(res) {
