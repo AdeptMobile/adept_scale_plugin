@@ -2,48 +2,44 @@
 let url    = require('url');
 let h      = require('heroku-cli-util');
 let http   = require('http')
+let vld    = require('../validate');
 
 module.exports = {
     topic: 'adept-scale',
     command: 'settings:set',
     description: 'Change the current settings of the app',
-    help: "This lets you set one of many of the scale settings of your app.",
+    help: "This command lets you set one or many of the scale settings of your app.\n"+
+        "Example: 'heroku adept-scale:settings:set -x=5 --app myapp'",
     needsApp: true,  // This command needs to be associated with an app (passed in the context argument)
     needsAuth: true, // This command needs an auth token to interact with the Heroku API (passed in the context argument)
+    flags: [
+        { name: 'scaling_is_active', char: 'a', description: 'Sets the scaling_is_active for the app', hasValue: true },
+        { name: 'max_dynos', char: 'x', description: 'Sets the max_dynos for the app', hasValue: true },
+        { name: 'min_dynos', char: 'n', description: 'Sets the min_dynos for the app', hasValue: true },
+        { name: 'expected_response_time', char: 'r', description: 'Sets the expected_response_time for the app', hasValue: true },
+        { name: 'sample_window', char: 'w', description: 'Sets the sample_window for the app', hasValue: true },
+        { name: 'dyno_increase_rate', char: 'i', description: 'Sets the dyno_increase_rate for the app', hasValue: true },
+        { name: 'dyno_decrease_rate', char: 'd', description: 'Sets the dyno_decrease_rate for the app', hasValue: true }
+    ],
+    variableArgs: false,
+    args: [
+        { name: 'dyno_type', optional: true, hidden: true },
+    ],
 
     // this is the main entry point
     // context is information from the CLI with the current app, auth token, arguments, etc.
     // heroku is an already authenticated heroku-client instance https://www.npmjs.com/package/heroku-client
     run: h.command(function* (context, heroku) {
-        let app = yield heroku.apps(context.app).info();
-        // Debug all about the app
-        // console.log('Heroku App ID: ', app.id);
-
         // Get the config vars for the app
-        console.log('Validating license key for app: ', app.name);
+        //TODO: figure out how we can DRY this out of here and into validate
         let config = yield heroku.apps(context.app).configVars().info();
-        if (!config.ADEPT_SCALE_LICENSE_KEY) {
-            console.error('App does not have ADEPT_SCALE_LICENSE_KEY, please contact AdeptScale support.');
-            process.exit(1);
-        }
-        //Debug our license key
-        // console.log('Using Adept Scale License Key: ', config.ADEPT_SCALE_LICENSE_KEY);
-
+        //parse out the config vars
+        // let loaded_creds = vld.loadAppCredentials(config);
+        //for testing on development using ufc app
+        let loaded_creds = {app_id: '54d90760416c6559921e0000', license_key: '29369993-169a-4880-8210-2d457fa64c34'}
 
         //This is the data we are posting, it needs to be a string or a buffer
-        var payload = JSON.stringify({
-            settings: {
-                dyno_type: 'web',
-                scaling_is_active: true,
-                max_dynos: null,
-                min_dynos: null,
-                expected_response_time: null,
-                sample_window: null,
-                dyno_increase_rate: null,
-                dyno_decrease_rate: null
-            }
-        });
-        console.log( payload );
+        var payload = JSON.stringify({ settings: context.flags, license_key: loaded_creds['license_key'] });
 
         var headers = {
           'Content-Type': 'application/json',
@@ -52,7 +48,7 @@ module.exports = {
 
         var requestOptions = {
             host: 'localhost',
-            path: '/v1/apps/' + config.ADEPT_SCALE_LICENSE_KEY,
+            path: '/v1/apps/' + loaded_creds['app_id'],
             port: '3000',
             method: 'PUT',
             headers: headers
@@ -70,7 +66,8 @@ module.exports = {
                 //finally we can process our response
                 res_data = JSON.parse(res_data);
                 //Display to user
-                console.log("\n----------------------------------");
+                console.log("\nUPDATED SETTINGS:");
+                console.log("----------------------------------");
                 h.columnify( res_data );
                 console.log("----------------------------------\n");
             });

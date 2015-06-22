@@ -1,3 +1,4 @@
+
 exports.topics = [{
 	name: 'adept-scale',
 	description: 'Manage AdeptScale automated scaling through the Heroku CLI'
@@ -28,3 +29,4 @@ exports.commands = [
 	require('./commands/settings/get'),
 	require('./commands/settings/set'),
 ];
+
