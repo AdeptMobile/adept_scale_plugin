@@ -34,9 +34,9 @@ module.exports = {
         //TODO: figure out how we can DRY this out of here and into validate
         let config = yield heroku.apps(context.app).configVars().info();
         //parse out the config vars
-        // let loaded_creds = vld.loadAppCredentials(config);
+        let loaded_creds = vld.loadAppCredentials(config);
         //for testing on development using ufc app
-        let loaded_creds = {app_id: '54d90760416c6559921e0000', license_key: '29369993-169a-4880-8210-2d457fa64c34'}
+        // let loaded_creds = {app_id: '54d90760416c6559921e0000', license_key: '29369993-169a-4880-8210-2d457fa64c34'}
 
         //This is the data we are posting, it needs to be a string or a buffer
         var payload = JSON.stringify({ settings: context.flags, license_key: loaded_creds['license_key'] });
