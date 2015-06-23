@@ -74,7 +74,9 @@ module.exports = {
         }
 
         console.log('Starting request to change settings...');
-        var req = http.request(requestOptions, responseCallback);
+        var req = http.request(requestOptions, responseCallback).on('error', function(er) {
+            console.error('Error', er.message);
+        });
         req.write( payload );
         req.end();
     })
