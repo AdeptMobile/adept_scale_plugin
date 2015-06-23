@@ -1,11 +1,12 @@
 'use strict';
 let url    = require('url');
 let h      = require('heroku-cli-util');
-let http   = require('http')
+let http   = require('http');
+let vld    = require('../validate');
 
 module.exports = {
     topic: 'adept-scale',
-    command: 'settings',
+    command: 'settings:get',
     description: 'Display the current settings of the app',
     help: "This is a getter to find out the current scale settings of your app.\n" +
             "Returned values:\n" +
@@ -27,25 +28,22 @@ module.exports = {
     // context is information from the CLI with the current app, auth token, arguments, etc.
     // heroku is an already authenticated heroku-client instance https://www.npmjs.com/package/heroku-client
     run: h.command(function* (context, heroku) {
-        let app = yield heroku.apps(context.app).info();
+        // let app = yield heroku.apps(context.app).info();
         // Debug all about the app
-        console.log('Heroku App ID: ', app.id);
+        // console.log('Heroku App ID: ', app.id);
+        // console.log('Validating license key for app: ', app.name);
 
         // Get the config vars for the app
+        //TODO: figure out how we can DRY this out of here and into validate
         let config = yield heroku.apps(context.app).configVars().info();
-        if (!config.ADEPT_SCALE_LICENSE_KEY) {
-            console.error('App does not have ADEPT_SCALE_LICENSE_KEY, please contact AdeptScale support.');
-            process.exit(1);
-        }
-        //Debug our license key
-        console.log('Using Adept Scale License Key: ', config.ADEPT_SCALE_LICENSE_KEY);
+        //parse out the config vars
+        let loaded_creds = vld.loadAppCredentials(config);
 
         // Contact AdeptScale API providing the app id and license key and make our request
-        let apiUrl = url.parse("http://localhost:3000/v1/apps/" + config.ADEPT_SCALE_LICENSE_KEY + "/settings");
-
-        // TODO: For now, we do not have license keys in all our apps' configs, so lets just use app id
-        // let apiUrl = url.parse("http://localhost:3000/v1/apps/21dd4b46-8b5d-44ca-a860-83f3ee58b161/settings");
-        // console.log( apiUrl);
+        let apiUrl = url.parse("http://www.adeptscale.com/v1/apps/" + loaded_creds['app_id'] + "?license_key=" + loaded_creds['license_key']);
+        //For debug using localhost and UFC app
+        // let apiUrl = url.parse("http://localhost:3000/v1/apps/54d90760416c6559921e0000?license_key=29369993-169a-4880-8210-2d457fa64c34");
+        // console.log("Validated API URL:", apiUrl);
 
         var res_data = '';
         var req = http.request(apiUrl, function(res) {
@@ -64,6 +62,8 @@ module.exports = {
                 h.columnify( res_data );
                 console.log("----------------------------------\n");
             });
+        }).on('error', function(er) {
+            console.error('Error', er.message);
         });
         req.end();
     })
