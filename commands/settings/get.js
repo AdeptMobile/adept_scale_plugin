@@ -40,9 +40,10 @@ module.exports = {
         let loaded_creds = vld.loadAppCredentials(config);
 
         // Contact AdeptScale API providing the app id and license key and make our request
-        let apiUrl = url.parse("http://localhost:3000/v1/apps/" + loaded_creds['app_id'] + "?license=" + loaded_creds['license_key']);
+        let apiUrl = url.parse("http://www.adeptscale.com/v1/apps/" + loaded_creds['app_id'] + "?license_key=" + loaded_creds['license_key']);
         //For debug using localhost and UFC app
         // let apiUrl = url.parse("http://localhost:3000/v1/apps/54d90760416c6559921e0000?license_key=29369993-169a-4880-8210-2d457fa64c34");
+        // console.log("Validated API URL:", apiUrl);
 
         var res_data = '';
         var req = http.request(apiUrl, function(res) {
@@ -61,6 +62,8 @@ module.exports = {
                 h.columnify( res_data );
                 console.log("----------------------------------\n");
             });
+        }).on('error', function(er) {
+            console.error('Error', er.message);
         });
         req.end();
     })

@@ -47,9 +47,10 @@ module.exports = {
         };
 
         var requestOptions = {
-            host: 'localhost',
+            // host: 'localhost',
+            host: 'www.adeptscale.com',
             path: '/v1/apps/' + loaded_creds['app_id'],
-            port: '3000',
+            // port: '3000',
             method: 'PUT',
             headers: headers
         };
