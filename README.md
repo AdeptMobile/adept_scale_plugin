@@ -43,6 +43,6 @@ $ heroku plugins:link; heroku adept-scale:settings:get --app myapp
 
 ## License
 Copyright Adept Mobile LLC 2015. All rights reserved.
-Read more in our [License](LICENSE) document.
+Read more in our [License](LICENSE.md) document.
 
 > This plugin was built using the standard practice defined at the [Heroku Devcenter](https://devcenter.heroku.com/articles/developing-toolbelt-plug-ins)
