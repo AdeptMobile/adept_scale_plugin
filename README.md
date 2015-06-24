@@ -1,10 +1,9 @@
 #AdeptScale Heroku CLI Plugin
 
-####Requirements:
-- [Heroku Toolbelt](https://toolbelt.heroku.com)
-
 ##Install
-This plugin is hosted on [npmjs.org](http://npmjs.org) and can be installed with
+- Install the [Heroku Toolbelt](https://toolbelt.heroku.com) if you do not already have it
+
+- This plugin is hosted on [npmjs.org](http://npmjs.org) and can be installed with
 
 ```heroku plugins:install```
 
