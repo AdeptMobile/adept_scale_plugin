@@ -1,16 +1,25 @@
 #AdeptScale Heroku CLI Plugin
 
+####Requirements:
+- [Heroku Toolbelt](https://toolbelt.heroku.com)
+
 ##Install
-coming soon
+This plugin is hosted on [npmjs.org](http://npmjs.org) and can be installed with
+
+```heroku plugins:install```
 
 ##Use
-coming soon
+##### Expected traffic example
+If you know you are about to experience a massive traffic load and you want your app to be ready with running dynos even before the traffic arrives, you could raise the min and max dyno settings ahead of time to ensure your app would scale within the new parameters. To raise your min-dynos to 10 and your max dynos to 50 you could run:
+```heroku adept-scale:settings:set -n 10 -x 50 --app APPNAME```
+After your event, the same command could be used to return settings to normal.
+
+To see the full list of commands use ```heroku adept-scale -h```
 
 ##Development
 
 ####Requirements:
-[Heroku Toolbelt](https://toolbelt.heroku.com)
-[Node.js](https://nodejs.org) and the included NPM
+- [Node.js](https://nodejs.org) and the included NPM
 
 ####Setup:
 - Clone the repo
