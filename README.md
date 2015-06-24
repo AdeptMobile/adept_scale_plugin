@@ -1,28 +1,35 @@
-AdeptScale Heroku CLI Plugin
-========================
+#AdeptScale Heroku CLI Plugin
 
-This plugin was built using the standard practice defined at the [Heroku Devcenter](https://devcenter.heroku.com/articles/developing-toolbelt-plug-ins)
+##Install
+coming soon
 
-Requirements:
-* Node
-* NPM
+##Use
+coming soon
 
+##Development
 
-Install and Use
-========================
-This plugin is not yet published or available for public install.
-TODO: Once this is published, change this section to include standard install instructions.
+####Requirements:
+[Heroku Toolbelt](https://toolbelt.heroku.com)
+[Node.js](https://nodejs.org) and the included NPM
 
-
-Development
-========================
+####Setup:
 - Clone the repo
+```git clone git@github.com:AdeptMobile/adept_scale_plugin.git```
+- Change to the plugin directory
+```cd adept_scale_plugin```
 - Install the npm packages
-- Link the plugin directory on install and every time you make a change ```heroku plugins:link```
-- Run your local plugin as normal ```heroku adept-scale```
+```npm install```
+- Link the plugin directory on install and every time you make a change
+```heroku plugins:link```
+- Run your local plugin as normal. 
+```heroku adept-scale -h```
+
+> Tip: To make testing easier, try one-lining the link and the command you are developing:
+```heroku plugins:link; heroku adept-scale:settings:get --app myapp```
 
 
-License
-========================
+##License
 Copyright Adept Mobile LLC 2015. All rights reserved.
 Read more in our [License](LICENSE) document.
+
+> This plugin was built using the standard practice defined at the [Heroku Devcenter](https://devcenter.heroku.com/articles/developing-toolbelt-plug-ins)

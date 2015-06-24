@@ -12,7 +12,7 @@ exports.commands = [
 		help: "Welcome to the AdeptScale Heroku CLI Plugin Tool",
 		run: function () {
 			console.log('Welcome to the AdeptScale Heroku CLI Plugin Tool\n\n' +
-						"Please use 'heroku help adept-scale' for an index of available commands.\n" +
+						"Please use 'heroku adept-scale -h' for an index of available commands.\n" +
 						"You can also find more detail by calling help on a specific command, such as 'heroku help adept-scale:settings'\n\n" +
 						"Thank you, and happy scaling.");
 		}
