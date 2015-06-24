@@ -1,6 +1,6 @@
 {
   "name": "heroku-adept-scale",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Manage AdeptScale automated scaling through the Heroku CLI",
   "main": "index.js",
   "dependencies": {
