@@ -23,7 +23,7 @@ exports.commands = [
 		description: 'tells you the version',
 		help: 'Show latest version with adept-scale:version',
 		run: function () {
-			console.log('AdeptScale Heroku CLI Plugin version 0.0.1');
+			console.log('AdeptScale Heroku CLI Plugin version 0.1.0');
 		}
 	},
 	require('./commands/settings/get'),
