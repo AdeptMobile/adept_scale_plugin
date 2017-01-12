@@ -13,10 +13,10 @@ module.exports = {
     needsApp: true,  // This command needs to be associated with an app (passed in the context argument)
     needsAuth: true, // This command needs an auth token to interact with the Heroku API (passed in the context argument)
     flags: [
-        { name: 'scaling_is_active', char: 'a', description: 'Sets the scaling_is_active for the app', hasValue: true },
+        { name: 'scaling_is_active', char: 's', description: 'Sets the scaling_is_active for the app', hasValue: true },
         { name: 'max_dynos', char: 'x', description: 'Sets the max_dynos for the app', hasValue: true },
         { name: 'min_dynos', char: 'n', description: 'Sets the min_dynos for the app', hasValue: true },
-        { name: 'expected_response_time', char: 'r', description: 'Sets the expected_response_time for the app', hasValue: true },
+        { name: 'expected_response_time', char: 't', description: 'Sets the expected_response_time for the app', hasValue: true },
         { name: 'sample_window', char: 'w', description: 'Sets the sample_window for the app', hasValue: true },
         { name: 'dyno_increase_rate', char: 'i', description: 'Sets the dyno_increase_rate for the app', hasValue: true },
         { name: 'dyno_decrease_rate', char: 'd', description: 'Sets the dyno_decrease_rate for the app', hasValue: true }
