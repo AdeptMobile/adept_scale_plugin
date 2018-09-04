@@ -11,6 +11,7 @@ module.exports = {
     help: "This is a getter to find out the current scale settings of your app.\n" +
             "Returned values:\n" +
             "----------------------------------\n" +
+            "app_name\n" +
             "dyno_type\n" +
             "max_dynos\n" +
             "min_dynos\n" +
@@ -21,6 +22,10 @@ module.exports = {
             "dyno_increase_rate\n" +
             "dyno_decrease_rate\n" +
             "----------------------------------",
+    // variableArgs: false,
+    // args: [
+    //     { name: 'dyno_type', optional: true, hidden: true },
+    // ],
     needsApp: true,  // This command needs to be associated with an app (passed in the context argument)
     needsAuth: true, // This command needs an auth token to interact with the Heroku API (passed in the context argument)
 
@@ -40,7 +45,15 @@ module.exports = {
         let loaded_creds = vld.loadAppCredentials(config);
 
         // Contact AdeptScale API providing the app id and license key and make our request
-        let apiUrl = url.parse("http://www.adeptscale.com/v1/apps/" + loaded_creds['app_id'] + "?license_key=" + loaded_creds['license_key']);
+        var path_root = "http://www.adeptscale.com/v1/apps/"
+
+        //add any params we need or want
+        var url_params = "license_key=" + loaded_creds['license_key']
+        // if( context.args['dyno_type'] ){
+        //     url_params += "&dyno_type=" + context.args['dyno_type']
+        // }
+
+        let apiUrl = url.parse(path_root + loaded_creds['app_id'] + "?" + url_params);
         //For debug using localhost and UFC app
         // let apiUrl = url.parse("http://localhost:3000/v1/apps/54d90760416c6559921e0000?license_key=29369993-169a-4880-8210-2d457fa64c34");
         // console.log("Validated API URL:", apiUrl);

@@ -1,3 +1,4 @@
+exports.version = require('./package.json').version;
 
 exports.topics = [{
 	name: 'adept-scale',
@@ -8,12 +9,11 @@ exports.commands = [
 	{
 		topic: 'adept-scale',
 		default: true,
-		description: 'Default welcome',
-		help: "Welcome to the AdeptScale Heroku CLI Plugin Tool",
+		description: 'Welcome to the AdeptScale Heroku CLI Plugin Tool',
+		help: "Use `heroku adept-scale:settings -h` for info on the settings interface",
 		run: function () {
 			console.log('Welcome to the AdeptScale Heroku CLI Plugin Tool\n\n' +
-						"Please use 'heroku adept-scale -h' for an index of available commands.\n" +
-						"You can also find more detail by calling help on a specific command, such as 'heroku help adept-scale:settings'\n\n" +
+						"Please use 'heroku adept-scale:settings -h' for an index of available settings commands.\n\n" +
 						"Thank you, and happy scaling.");
 		}
 	},
@@ -23,7 +23,7 @@ exports.commands = [
 		description: 'tells you the version',
 		help: 'Show latest version with adept-scale:version',
 		run: function () {
-			console.log('AdeptScale Heroku CLI Plugin version 0.1.2');
+			console.log('AdeptScale Heroku CLI Plugin version', exports.version);
 		}
 	},
 	require('./commands/settings/get'),
